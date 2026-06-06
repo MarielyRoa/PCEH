@@ -1,0 +1,41 @@
+:root {
+    --purple-main: #5a4fcf; /* morado moderno */
+    --purple-dark: #4a3fc0;
+    --purple-soft: #f4f2ff;
+}
+
+.purple-nav {
+    background: linear-gradient(90deg, #5a4fcf, #6a5cff, #5a4fcf);
+}
+
+    .purple-nav .nav-link {
+        color: #ffffffcc;
+        font-weight: 500;
+    }
+
+        .purple-nav .nav-link:hover {
+            color: #ffffff;
+        }
+
+body {
+    background-color: #ffffff;
+}
+
+.bg-purple-soft {
+    background: #f4f2ff;
+}
+
+.text-purple {
+    color: #5a4fcf;
+}
+
+.btn-purple {
+    color: blueviolet;
+}
+
+.btn-rounded {
+    border-radius: 999px;
+    padding: 0.6rem 1.6rem;
+    font-weight: 600;
+    border: 1px solid rgba(90,79,207,0.25);
+}

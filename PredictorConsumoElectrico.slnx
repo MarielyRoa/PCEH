@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PCEH.Application/PCEH.Application.csproj" />
+  <Project Path="PCEH.WebApp/PCEH.WebApp.csproj" />
+</Solution>

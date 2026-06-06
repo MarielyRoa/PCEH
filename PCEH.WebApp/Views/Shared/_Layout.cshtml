@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PCEH.WebApp</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PCEH.WebApp.styles.css" asp-append-version="true" />
+</head>
+    <body class="bg-white">
+        <nav class="navbar navbar-expand-lg navbar-dark purple-nav shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-controller="Predictor" asp-action="Index">
+                    PCEH
+                </a>
+                <div class="navbar-nav">
+                    <a class="nav-link" asp-controller="Predictor" asp-action="Index">Home</a>
+                    <a class="nav-link" asp-controller="Predictor" asp-action="Mode">Modos</a>
+                </div>
+            </div>
+        </nav>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+            <div class="container">
+                <hr />
+                <p class="text-center text-muted mb-0">&copy; @DateTime.Now.Year - PCEH.WebApp</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

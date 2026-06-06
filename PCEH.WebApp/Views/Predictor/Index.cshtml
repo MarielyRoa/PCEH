@@ -1,0 +1,128 @@
+﻿@model PCEH.Application.ViewModels.PredictorHomeViewModel
+
+@{
+    ViewData["Title"] = "Predictor";
+}
+
+<form asp-action="Index" method="post" id="predictorForm">
+
+    <div class="row mt-4">
+        <h1 class="text-center fw-bold">Predictor de Consumo Eléctrico del Hogar</h1>
+        <p class="text-center text-muted">Ingresa los 12 meses de consumo histórico para calcular la predicción.</p>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-1">Datos de consumo</h5>
+                    <p class="text-muted small mb-4">Organizado desde el mes más antiguo hasta el más reciente.</p>
+
+                    @* Mensajes de error de validación *@
+                    <div asp-validation-summary="All" class="alert alert-danger py-2" style="display:@(ViewData.ModelState.IsValid ? "none" : "block")"></div>
+
+                    <div class="row g-3">
+                        @for (int i = 0; i < 12; i++)
+                        {
+                            <div class="col-md-4">
+                                <div class="border rounded-3 p-3 bg-light">
+                                    <label class="form-label fw-semibold text-purple">Mes @(i + 1)</label>
+
+                                    <input type="date"
+                                           class="form-control mb-2 consume-date"
+                                           asp-for="Consumption[@i].Date"
+                                           id="date_@i" />
+
+                                    <div class="input-group">
+                                        <input type="number"
+                                               step="0.01"
+                                               min="0.01"
+                                               class="form-control consume-value"
+                                               asp-for="Consumption[@i].Value"
+                                               placeholder="Consumo"
+                                               id="value_@i" />
+                                        <span class="input-group-text">kWh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-2">
+                        <div>
+                            <span class="text-muted fw-semibold">Modo actual:</span>
+                            <span class="badge rounded-pill bg-purple-soft text-purple ms-2 px-3 py-2">
+                                @Model.CurrentMode
+                            </span>
+                        </div>
+
+                        <button type="submit" class="btn btn-purple-soft text-purple btn-rounded px-4">
+                            Calcular predicción
+                        </button>
+                        <a href="@Url.Action("Limpiar", "Predictor")" class="btn btn-outline-secondary text-purple btn-rounded px-4">
+                            Limpiar campos
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+@* Sección de resultados *@
+@if (Model.SmaResult != null || Model.LinearRegressionResult != null ||
+     Model.PercentageVariationResult != null || Model.TrendDetectionResult != null)
+{
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+
+                    <h5 class="fw-bold mb-3">Resultado de la predicción</h5>
+
+                    @if (Model.SmaResult != null)
+                    {
+                        <p><span class="fw-semibold">Promedio:</span> @Model.SmaResult.Average kWh</p>
+                        <p><span class="fw-semibold">Predicción próximo mes:</span> @Model.SmaResult.NextValue kWh</p>
+                        <p><span class="fw-semibold">Tendencia:</span> @Model.SmaResult.Trend</p>
+                    }
+
+                    @if (Model.LinearRegressionResult != null)
+                    {
+                        <p><span class="fw-semibold">Pendiente:</span> @Model.LinearRegressionResult.Slope</p>
+                        <p><span class="fw-semibold">Intercepto:</span> @Model.LinearRegressionResult.Intercept</p>
+                        <p><span class="fw-semibold">Predicción próximo mes:</span> @Model.LinearRegressionResult.NextValue kWh</p>
+                        <p><span class="fw-semibold">Tendencia:</span> @Model.LinearRegressionResult.Trend</p>
+                    }
+
+                    @if (Model.PercentageVariationResult != null)
+                    {
+                        <p><span class="fw-semibold">Promedio de variación:</span> @Model.PercentageVariationResult.AverageVariation?.ToString("F2")%</p>
+                        <p><span class="fw-semibold">Tendencia:</span> @Model.PercentageVariationResult.Trend</p>
+
+                        <ul class="mt-2">
+                            @foreach (var v in Model.PercentageVariationResult.Variations)
+                            {
+                                <li>Mes @v.MonthIndex: @v.Message</li>
+                            }
+                        </ul>
+                    }
+
+                    @if (Model.TrendDetectionResult != null)
+                    {
+                        <p><span class="fw-semibold">Meses que subieron:</span> @Model.TrendDetectionResult.UpCount</p>
+                        <p><span class="fw-semibold">Meses que bajaron:</span> @Model.TrendDetectionResult.DownCount</p>
+                        <p><span class="fw-semibold">Meses estables:</span> @Model.TrendDetectionResult.StableCount</p>
+                        <p><span class="fw-semibold">Tendencia:</span> @Model.TrendDetectionResult.Trend</p>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

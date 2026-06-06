@@ -1,0 +1,77 @@
+﻿@model PCEH.Application.ViewModels.ModeSelectionViewModel
+
+@{
+    ViewData["Title"] = "Modos";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h4 class="fw-bold mb-2 text-purple">Modos de predicción</h4>
+                <p class="text-muted mb-4">
+                    Selecciona el modo que deseas utilizar. Luego podrás calcular la predicción.
+                </p>
+
+                <form asp-action="Mode" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Modo</label>
+                        <select class="form-select" asp-for="SelectedMode">
+                            <option value="Sma">Promedio Móvil Simple (SMA)</option>
+                            <option value="LinearRegression">Regresión Lineal</option>
+                            <option value="PercentageVariation">Variación Porcentual</option>
+                            <option value="TrendDetection">Detección de Tendencia</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-purple-soft btn-rounded text-purple ms-2">Seleccionar modo</button>
+                </form>
+
+                <hr class="my-4" />
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mode-card">
+                            <h6 class="fw-bold">SMA</h6>
+                            <p class="mb-0 text-muted">
+                                Calcula el promedio de consumo de los
+                                últimos meses para estimar el siguiente
+                                periodo.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mode-card">
+                            <h6 class="fw-bold">Regresión Lineal</h6>
+                            <p class="mb-0 text-muted">
+                                Ajusta una regresión de consumo vs
+                                tiempo y estima el próximo valor futuro.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mode-card">
+                            <h6 class="fw-bold">Variación %</h6>
+                            <p class="mb-0 text-muted">
+                                Calcula el porcentaje de cambio entre
+                                consumos consecutivos para detectar
+                                incremento o disminución.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mode-card">
+                            <h6 class="fw-bold">Tendencia</h6>
+                            <p class="mb-0 text-muted">
+                                Analiza el comportamiento general del
+                                consumo y determina si sube, baja o
+                                permanece estable.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
